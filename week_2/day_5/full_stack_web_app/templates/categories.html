@@ -23,10 +23,6 @@
                class="border rounded px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none transition">
         <input type="text" name="description" placeholder="Description"
                class="border rounded px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none transition">
-        <input type="text" name="icon" placeholder="Icon" 
-               class="border rounded px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none transition">
-        <input type="text" name="cover_image" placeholder="Cover Image URL" 
-               class="border rounded px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none transition">
         <div class="flex justify-between mt-2">
             <button type="submit" 
                     class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-600 hover:shadow-lg transition">
@@ -64,11 +60,8 @@
     <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-1">
         <!-- Category Header with Image -->
         <div class="relative h-32 overflow-hidden">
-            <img src="{{ category.cover_image }}" 
-                 alt="{{ category.name }} category" 
-                 class="w-full h-full object-cover">
+            
             <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-            <div class="absolute top-4 right-4 text-3xl">{{ category.icon }}</div>
             <div class="absolute bottom-4 left-4 text-white">
                 <h3 class="text-xl font-bold">{{ category.name }}</h3>
                 <p class="text-sm opacity-90">{{ category.book_count }} books</p>

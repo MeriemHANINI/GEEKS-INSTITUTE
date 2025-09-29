@@ -34,10 +34,16 @@
                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"></textarea>
         </div>
         <div>
-            <label class="block text-gray-700 font-semibold mb-1">Photo (URL)</label>
-            <input type="text" name="photo" 
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+            <label class="block text-gray-700 font-semibold mb-1">Photo</label>
+            <select name="photo" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+                {% for img in images %}
+                    <option value="{{ url_for('static', filename='images/image_authors/' ~ img) }}">{{ img }}</option>
+                {% endfor %}
+            </select>
         </div>
+        
+        
         <div class="flex justify-between items-center mt-4">
             <button type="submit"
                     class="w-2/3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg transition transform hover:-translate-y-0.5">

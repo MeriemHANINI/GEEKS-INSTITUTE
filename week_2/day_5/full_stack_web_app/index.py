@@ -4,6 +4,8 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from werkzeug.security import check_password_hash
 from functools import wraps
+import os
+
 
 app = Flask(__name__)
 app.secret_key = "secret123"  # nécessaire pour flash() et session
@@ -49,6 +51,7 @@ def index():
 # --- ROUTE AUTEURS ---
 @app.route("/authors")
 def authors():
+    # --- Récupérer auteurs + nombre de livres ---
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
@@ -61,7 +64,13 @@ def authors():
     authors = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template("authors.html", authors=authors)
+
+    # --- Récupérer les images du dossier static/images/image ---
+    image_folder = os.path.join(app.static_folder, "images", "image_authors")
+
+    images = [f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
+
+    return render_template("authors.html", authors=authors, images=images)
 
 # --- CREATE AUTHOR ---
 @app.route("/authors/create", methods=["GET", "POST"])
@@ -137,7 +146,7 @@ def categories():
         return redirect(url_for("categories"))
 
     cur.execute("""
-        SELECT c.id, c.name, c.description, c.icon, c.cover_image,
+        SELECT c.id, c.name, c.description, 
                COUNT(b.id) AS book_count
         FROM categories c
         LEFT JOIN books b ON b.category_id = c.id
@@ -206,10 +215,15 @@ def details(book_id):
 def create():
     conn = get_db_connection()
     cur = conn.cursor()
+
+    # Récupérer auteurs et catégories
     cur.execute("SELECT id, name FROM authors")
     authors = cur.fetchall()
     cur.execute("SELECT id, name FROM categories")
     categories = cur.fetchall()
+
+    # Récupérer les images dans static/images
+    images = os.listdir(os.path.join(app.static_folder, 'images'))
 
     if request.method == "POST":
         title = request.form["title"]
@@ -230,7 +244,7 @@ def create():
 
     cur.close()
     conn.close()
-    return render_template("create.html", authors=authors, categories=categories)
+    return render_template("create.html", authors=authors, categories=categories, images=images)
 
 @app.route("/edit/<int:book_id>", methods=["GET", "POST"])
 def edit(book_id):
@@ -323,6 +337,55 @@ def dashboard():
         total_authors=total_authors,
         total_categories=total_categories
     )
+
+# ------- stats ------------
+@app.route("/stats")
+def stats():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    
+    # Statistiques générales
+    cur.execute("SELECT COUNT(*) as total FROM books")
+    total_books = cur.fetchone()["total"]
+    
+    cur.execute("SELECT COUNT(*) as total FROM authors")
+    total_authors = cur.fetchone()["total"]
+    
+    cur.execute("SELECT COUNT(*) as total FROM categories")
+    total_categories = cur.fetchone()["total"]
+    
+    # Livres par catégorie
+    cur.execute("""
+        SELECT c.name, COUNT(b.id) as book_count
+        FROM categories c
+        LEFT JOIN books b ON c.id = b.category_id
+        GROUP BY c.id, c.name
+        ORDER BY book_count DESC
+    """)
+    books_by_category = cur.fetchall()
+    
+    # Auteurs avec le plus de livres
+    cur.execute("""
+        SELECT a.name, COUNT(b.id) as book_count
+        FROM authors a
+        LEFT JOIN books b ON a.id = b.author_id
+        GROUP BY a.id, a.name
+        ORDER BY book_count DESC
+        LIMIT 10
+    """)
+    top_authors = cur.fetchall()
+    
+    cur.close()
+    conn.close()
+    
+    return render_template("stats.html", 
+                         total_books=total_books,
+                         total_authors=total_authors,
+                         total_categories=total_categories,
+                         books_by_category=books_by_category,
+                         top_authors=top_authors)
+
+
 
 # --- LANCER L'APPLICATION ---
 if __name__ == "__main__":

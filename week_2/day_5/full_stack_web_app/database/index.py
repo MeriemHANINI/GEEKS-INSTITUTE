@@ -72,32 +72,6 @@ def voir_tables():
     except Exception as e:
         print(f"Erreur: {e}")
 
-def update_livres_table():
-    """Ajouter les colonnes manquantes à la table livres"""
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        colonnes_a_ajouter = [
-            "ALTER TABLE livres ADD COLUMN IF NOT EXISTS nombre_exemplaires INTEGER DEFAULT 1",
-            "ALTER TABLE livres ADD COLUMN IF NOT EXISTS exemplaires_disponibles INTEGER DEFAULT 1",
-            "ALTER TABLE livres ADD COLUMN IF NOT EXISTS langue VARCHAR(50) DEFAULT 'Français'",
-            "ALTER TABLE livres ADD COLUMN IF NOT EXISTS resume TEXT"
-        ]
-
-        for commande in colonnes_a_ajouter:
-            cur.execute(commande)
-            print(f"Colonne ajoutée")
-
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("Table livres mise à jour !")
-    except Exception as e:
-        print(f"Erreur: {e}")
-        conn.rollback()
-        cur.close()
-        conn.close()
 
 # Pour tester
 if __name__ == "__main__":

@@ -1,2 +1,57 @@
-<!-- stats.html -->
-<!-- vide -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">📊 Statistiques de la Bibliothèque</h1>
+    </div>
+
+    <!-- Cartes de statistiques -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl font-bold text-blue-600 mb-2">{{ total_books }}</div>
+            <div class="text-gray-600">Livres Total</div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl font-bold text-green-600 mb-2">{{ total_authors }}</div>
+            <div class="text-gray-600">Auteurs</div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <div class="text-3xl font-bold text-purple-600 mb-2">{{ total_categories }}</div>
+            <div class="text-gray-600">Catégories</div>
+        </div>
+    </div>
+
+    <!-- Livres par catégorie -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Livres par Catégorie</h2>
+            <div class="space-y-3">
+                {% for category in books_by_category %}
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700">{{ category.name }}</span>
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ category.book_count }} livres
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top auteurs -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Top Auteurs</h2>
+            <div class="space-y-3">
+                {% for author in top_authors %}
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700">{{ author.name }}</span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ author.book_count }} livres
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
