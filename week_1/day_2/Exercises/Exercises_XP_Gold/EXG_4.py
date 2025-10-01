@@ -1,33 +1,43 @@
+# Exercice 4: Double Dice
+
 import random
 
-# Roll a single dice
-def throw_dice() -> int:
+def throw_dice():
+    """
+    Lance un dé et retourne un entier entre 1 et 6
+    """
     return random.randint(1, 6)
 
-# Keep rolling two dice until doubles appear
-def throw_until_doubles() -> int:
+def throw_until_doubles():
+    """
+    Lance deux dés jusqu'à obtenir des doubles.
+    Retourne le nombre de lancers nécessaires.
+    """
     count = 0
     while True:
+        dice1 = throw_dice()
+        dice2 = throw_dice()
         count += 1
-        d1, d2 = throw_dice(), throw_dice()
-        # print(f"Throw {count}: ({d1}, {d2})")  # Optional: to see the process
-        if d1 == d2:
+        if dice1 == dice2:
             break
     return count
 
-# Run the experiment 100 times
-def main():
+def main_dice_simulation():
+    """
+    Lance l'expérience 100 fois et affiche :
+    - Le nombre total de lancers
+    - Le nombre moyen de lancers pour obtenir des doubles
+    """
     results = []
     for _ in range(100):
-        throws = throw_until_doubles()
-        results.append(throws)
+        throws_needed = throw_until_doubles()
+        results.append(throws_needed)
 
     total_throws = sum(results)
-    average_throws = total_throws / len(results)
+    average_throws = round(total_throws / len(results), 2)
 
-    print(f"Total throws to reach 100 doubles: {total_throws}")
-    print(f"Average throws to reach doubles: {average_throws:.2f}")
+    print(f"Total de lancers pour atteindre 100 doubles : {total_throws}")
+    print(f"Moyenne de lancers pour obtenir des doubles : {average_throws}")
 
-# Run the main function
-if __name__ == "__main__":
-    main()
+
+# main_dice_simulation()

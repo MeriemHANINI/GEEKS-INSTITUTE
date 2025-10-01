@@ -1,13 +1,6 @@
-family = {}  
+# Predefined family
+family = {"rick": 43, 'beth': 13, 'morty': 5, 'summer': 8}
 
-while True:
-    name = input("Entrez le nom d'un membre de la famille (ou 'stop' pour finir) : ")
-    if name.lower() == 'stop':
-        break
-    age = int(input(f"Entrez l'âge de {name} : "))
-    family[name] = age
-
-# Calcul du total
 total_cost = 0
 for member, age in family.items():
     if age < 3:
@@ -16,7 +9,18 @@ for member, age in family.items():
         price = 10
     else:
         price = 15
-    print(f"{member} doit payer ${price}")
+    print(f"{member} has to pay ${price}")
     total_cost += price
 
-print(f"Le coût total de la famille est ${total_cost}")
+print(f"Total family cost: ${total_cost}")
+
+# Bonus: user input version
+family_input = {}
+while True:
+    name = input("Enter family member name (or 'done' to finish): ")
+    if name.lower() == 'done':
+        break
+    age = int(input(f"Enter age for {name}: "))
+    family_input[name] = age
+
+print(family_input)

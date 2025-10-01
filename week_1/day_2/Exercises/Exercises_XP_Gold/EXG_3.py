@@ -1,8 +1,12 @@
-# Exercise 3: Sum
+# Exercice 3: Sum X + XX + XXX + XXXX
 
-def sequence_sum(x: int) -> int:
-    return int(str(x)) + int(str(x) * 2) + int(str(x) * 3) + int(str(x) * 4)
+def sum_sequence(x):
+    """
+    Calcule la somme X + XX + XXX + XXXX pour un entier X
+    """
+    str_x = str(x)
+    total = int(str_x) + int(str_x*2) + int(str_x*3) + int(str_x*4)
+    return total
 
-# Example
-print(sequence_sum(3))  # 3702
-print(sequence_sum(5))  # 6170
+
+# print(sum_sequence(3))  

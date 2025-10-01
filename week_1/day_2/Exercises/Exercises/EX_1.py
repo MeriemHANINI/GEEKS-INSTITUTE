@@ -1,5 +1,5 @@
 keys = ['Ten', 'Twenty', 'Thirty']
 values = [10, 20, 30]
 
-result = dict(zip(keys, values))
-print(result)
+my_dict = dict(zip(keys, values))
+print(my_dict)
