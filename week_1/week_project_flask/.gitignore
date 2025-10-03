@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyt
+*.pdb
+
+# Environnement virtuel
+.venv/
+venv/
+
+# Fichiers de configuration locaux
+.env
+*.env
+
+# IDE / éditeurs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs et fichiers temporaires
+*.log
+*.sqlite3
+*.db
+*.DS_Store
+*.egg-info/
+dist/
+build/
