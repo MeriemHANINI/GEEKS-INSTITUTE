@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1 {
+    margin-bottom: 10px;
+  }
+  
+  .controls {
+    margin-bottom: 20px;
+  }
+  
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    border: 2px solid #333;
+  }
+  
+  .square {
+    background-color: white;
+    border: 1px solid #ddd;
+    transition: background-color 0.1s;
+  }
+  
+  .square:hover {
+    border-color: #999;
+  }
+  
