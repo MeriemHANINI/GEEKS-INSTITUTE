@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Select Music</title>
+</head>
+<body>
+    <select id="genres">
+      <option value="rock">Rock</option>
+      <option value="blues" selected>Blues</option>
+    </select>
+
+    <p id="result"></p>
+
+    <script>
+        // Display the selected value
+        const select = document.getElementById("genres");
+        const result = document.getElementById("result");
+
+        // Show initial selected value
+        result.textContent = "Selected: " + select.value;
+
+        // Update display when user changes option
+        select.addEventListener("change", () => {
+            result.textContent = "Selected: " + select.value;
+        });
+
+        // Add new option 'Classic' and make it selected by default
+        const newOption = new Option("Classic", "classic", true, true);
+        select.appendChild(newOption);
+
+        // Update the displayed value to the new default
+        result.textContent = "Selected: " + select.value;
+    </script>
+</body>
+</html>

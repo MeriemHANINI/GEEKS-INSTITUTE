@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Show Only Letters</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    label {
+      font-size: 18px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #888;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daily Challenge : Show Only Letters</h1>
+  <label for="lettersOnly">Enter letters only:</label>
+  <input id="lettersOnly" type="text" placeholder="Only letters allowed">
+
+  <script>
+    const input = document.getElementById('lettersOnly');
+
+    input.addEventListener('input', (e) => {
+      // Supprimer tout caractère qui n’est pas une lettre (A–Z ou a–z)
+      const cleaned = e.target.value.replace(/[^a-zA-Z]/g, '');
+      if (e.target.value !== cleaned) {
+        e.target.value = cleaned;
+      }
+    });
+  </script>
+</body>
+</html>

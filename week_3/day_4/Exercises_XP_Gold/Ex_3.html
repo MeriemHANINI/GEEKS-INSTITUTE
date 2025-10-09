@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Colors</title>
+</head>
+<body>
+    <form>
+        <select id="colorSelect">
+            <option>Red</option>
+            <option>Green</option>
+            <option>White</option>
+            <option>Black</option>
+        </select>
+        <input type="button" value="Select and Remove">
+    </form>
+
+    <script>
+        // Get references
+        const select = document.getElementById("colorSelect");
+        const button = document.querySelector('input[type="button"]');
+
+        // Function to remove selected color
+        function removecolor() {
+            const selectedIndex = select.selectedIndex;
+            if (selectedIndex !== -1) {
+                select.remove(selectedIndex);
+            }
+        }
+
+        // Add click event listener
+        button.addEventListener("click", removecolor);
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Move the Box</title>
+    <style>
+        #container {
+          width: 400px;
+          height: 400px;
+          position: relative;
+          background: yellow;
+        }
+        #animate {
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <p><button onclick="myMove()">Click Me</button></p>
+    <div id="container">
+        <div id="animate"></div>
+    </div>
+
+    <script>
+        // 🌟 Function to move the box
+        function myMove() {
+            const box = document.getElementById("animate");
+            let position = 0;
+            
+            const id = setInterval(() => {
+                if (position >= 350) { // 400 (container) - 50 (box)
+                    clearInterval(id);
+                } else {
+                    position++;
+                    box.style.left = position + "px";
+                }
+            }, 1); // move 1px every millisecond
+        }
+    </script>
+</body>
+</html>
