@@ -1,20 +1,26 @@
-// 1. Change the id from navBar to socialNetworkNavigation
-const navDiv = document.getElementById("navBar");
-navDiv.setAttribute("id", "socialNetworkNavigation");
+// exercise6.js
 
-// 2. Add a new <li> with text "Logout"
-const newLi = document.createElement("li");       // create <li>
-const textNode = document.createTextNode("Logout"); // create text node
-newLi.appendChild(textNode);                      // append text to <li>
+// Change the id attribute from navBar to socialNetworkNavigation
+const navbar = document.getElementById('navBar');
+navbar.setAttribute('id', 'socialNetworkNavigation');
 
-// Append the new <li> to the <ul>
-const ul = navDiv.querySelector("ul");
-ul.appendChild(newLi);
+// Create a new <li> element
+const newListItem = document.createElement('li');
 
-// 3. Use firstElementChild and lastElementChild to retrieve <li> elements
+// Create a text node with "Logout"
+const logoutText = document.createTextNode('Logout');
+
+// Append the text node to the new list item
+newListItem.appendChild(logoutText);
+
+// Append the new list item to the unordered list
+const ul = navbar.querySelector('ul');
+ul.appendChild(newListItem);
+
+// Retrieve the first and last <li> elements
 const firstLi = ul.firstElementChild;
 const lastLi = ul.lastElementChild;
 
 // Display the text of each link
-console.log("First item:", firstLi.textContent);
-console.log("Last item:", lastLi.textContent);
+console.log('First link text:', firstLi.textContent);
+console.log('Last link text:', lastLi.textContent);

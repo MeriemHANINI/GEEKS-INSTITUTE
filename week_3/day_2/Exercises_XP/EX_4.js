@@ -1,42 +1,64 @@
-function hotelCost(nights) {
+// Hotel cost function
+function hotelCost() {
+    let nights;
+    do {
+        nights = prompt("How many nights would you like to stay at the hotel?");
+        nights = parseInt(nights);
+    } while (isNaN(nights) || nights <= 0);
+    
     return nights * 140;
 }
 
-function planeRideCost(destination) {
+// Plane ride cost function
+function planeRideCost() {
+    let destination;
+    do {
+        destination = prompt("What is your destination?");
+    } while (typeof destination !== 'string' || destination.trim() === '');
+    
     destination = destination.toLowerCase();
-    if (destination === "london") return 183;
-    if (destination === "paris") return 220;
-    return 300;
+    
+    switch(destination) {
+        case 'london':
+            return 183;
+        case 'paris':
+            return 220;
+        default:
+            return 300;
+    }
 }
 
-function rentalCarCost(days) {
-    let total = days * 40;
-    if (days > 10) total *= 0.95; // 5% discount
-    return total;
-}
-
-function totalVacationCost() {
-    let nights, destination, days;
-
+// Rental car cost function
+function rentalCarCost() {
+    let days;
     do {
-        nights = Number(prompt("How many nights would you like to stay in the hotel?"));
-    } while (isNaN(nights) || nights <= 0);
-
-    do {
-        destination = prompt("Where is your destination?");
-    } while (!destination || typeof destination !== "string");
-
-    do {
-        days = Number(prompt("How many days would you like to rent the car?"));
+        days = prompt("How many days would you like to rent the car?");
+        days = parseInt(days);
     } while (isNaN(days) || days <= 0);
+    
+    let cost = days * 40;
+    
+    // Apply discount for rentals longer than 10 days
+    if (days > 10) {
+        cost *= 0.95; // 5% discount
+    }
+    
+    return cost;
+}
 
-    const hotel = hotelCost(nights);
-    const plane = planeRideCost(destination);
-    const car = rentalCarCost(days);
-
-    console.log(`The car cost: $${car}, the hotel cost: $${hotel}, the plane tickets cost: $${plane}.`);
-
-    return hotel + plane + car;
+// Total vacation cost function
+function totalVacationCost() {
+    const hotel = hotelCost();
+    const plane = planeRideCost();
+    const car = rentalCarCost();
+    const total = hotel + plane + car;
+    
+    console.log(`The hotel cost: $${hotel}`);
+    console.log(`The plane tickets cost: $${plane}`);
+    console.log(`The car rental cost: $${car}`);
+    console.log(`Total vacation cost: $${total}`);
+    
+    return total;
 }
 
 // Call the function

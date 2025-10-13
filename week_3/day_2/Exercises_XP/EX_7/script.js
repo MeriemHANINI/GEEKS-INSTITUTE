@@ -1,46 +1,49 @@
-// 1. Créer un tableau de livres
+// exercise7.js
+
+// Array of books
 const allBooks = [
-    {
-        title: "Harry Potter",
-        author: "J.K. Rowling",
-        image: "https://upload.wikimedia.org/wikipedia/en/6/6b/Harry_Potter_and_the_Philosopher%27s_Stone_Book_Cover.jpg",
-        alreadyRead: true
-    },
     {
         title: "The Hobbit",
         author: "J.R.R. Tolkien",
-        image: "https://upload.wikimedia.org/wikipedia/en/4/4a/TheHobbit_FirstEdition.jpg",
+        image: "https://images.example.com/hobbit.jpg",
+        alreadyRead: true
+    },
+    {
+        title: "1984",
+        author: "George Orwell",
+        image: "https://images.example.com/1984.jpg",
         alreadyRead: false
     }
 ];
 
-// 2. Sélectionner la section
-const section = document.querySelector('.listBooks');
+// Get the section element
+const bookSection = document.querySelector('.listBooks');
 
-// 3. Parcourir le tableau et créer le DOM
+// Render each book
 allBooks.forEach(book => {
-    // Créer un div pour chaque livre
+    // Create a div for the book
     const bookDiv = document.createElement('div');
-    bookDiv.classList.add('book');
-
-    // Créer le titre et l'auteur
+    bookDiv.className = 'book';
+    
+    // Create book title and author
     const bookInfo = document.createElement('p');
     bookInfo.textContent = `${book.title} written by ${book.author}`;
-
-    // Changer la couleur si déjà lu
+    
+    // Set color to red if already read
     if (book.alreadyRead) {
-        bookInfo.style.color = 'red';
+        bookInfo.classList.add('read');
     }
-
-    // Créer l'image
+    
+    // Create image element
     const bookImage = document.createElement('img');
     bookImage.src = book.image;
     bookImage.alt = `${book.title} cover`;
-
-    // Ajouter les éléments au div
+    bookImage.style.width = '100px';
+    
+    // Append elements to the book div
     bookDiv.appendChild(bookInfo);
     bookDiv.appendChild(bookImage);
-
-    // Ajouter le div à la section
-    section.appendChild(bookDiv);
+    
+    // Append book div to the section
+    bookSection.appendChild(bookDiv);
 });

@@ -1,53 +1,45 @@
-// 1. Retrieve the div and console.log it
-const containerDiv = document.getElementById("container");
-console.log(containerDiv);
+// exercise5.js
 
-// 2. Change "Pete" to "Richard"
-const allLis = document.querySelectorAll("ul.list li");
-allLis.forEach(li => {
-    if (li.textContent === "Pete") {
-        li.textContent = "Richard";
-        li.style.border = "1px solid black"; // add border as requested later
-    }
+// Retrieve the div and console.log it
+const container = document.getElementById('container');
+console.log(container);
+
+// Change the name "Pete" to "Richard"
+const lists = document.querySelectorAll('.list');
+lists[0].children[1].textContent = 'Richard';
+
+// Delete the second <li> of the second <ul>
+lists[1].removeChild(lists[1].children[1]);
+
+// Change the name of the first <li> of each <ul> to your name
+lists.forEach(list => {
+    list.children[0].textContent = 'YourName'; // Replace with your actual name
 });
 
-// 3. Delete the second <li> of the second <ul>
-const secondUl = document.querySelectorAll("ul.list")[1];
-secondUl.removeChild(secondUl.children[1]); // deletes "Sarah"
-
-// 4. Change the first <li> of each <ul> to your name
-const myName = "Meriem";
-document.querySelectorAll("ul.list").forEach(ul => {
-    ul.children[0].textContent = myName;
+// Add a class called student_list to both of the <ul>'s
+lists.forEach(list => {
+    list.classList.add('student_list');
 });
 
-// 5. Add class student_list to both <ul>'s
-document.querySelectorAll("ul.list").forEach(ul => {
-    ul.classList.add("student_list");
-});
+// Add the classes university and attendance to the first <ul>
+lists[0].classList.add('university', 'attendance');
 
-// Add classes university and attendance to the first <ul>
-const firstUl = document.querySelector("ul.list");
-firstUl.classList.add("university", "attendance");
+// Add a "light blue" background color and some padding to the <div>
+container.style.backgroundColor = 'lightblue';
+container.style.padding = '10px';
 
-// 6. Style the div
-containerDiv.style.backgroundColor = "lightblue";
-containerDiv.style.padding = "10px";
+// Do not display the <li> that contains the text node "Dan"
+lists[1].children[2].style.display = 'none';
 
-// 7. Do not display <li> that contains "Dan"
-allLis.forEach(li => {
-    if (li.textContent === "Dan") {
-        li.style.display = "none";
-    }
-});
+// Add a border to the <li> that contains the text node "Richard"
+lists[0].children[1].style.border = '1px solid black';
 
-// 8. Change font size of the whole body
-document.body.style.fontSize = "18px";
+// Change the font size of the whole body
+document.body.style.fontSize = '18px';
 
-// 9. Bonus: Alert if background color is light blue
-if (containerDiv.style.backgroundColor === "lightblue") {
-    // Get users from div text content
-    const usersText = containerDiv.textContent.replace("Users: ", "");
-    const users = usersText.split(", ").slice(0,2); // first two users in div
-    alert(`Hello ${users[0]} and ${users[1]}`);
+// Bonus: If the background color of the div is "light blue", alert "Hello x and y"
+if (container.style.backgroundColor === 'lightblue') {
+    const firstUser = lists[0].children[0].textContent;
+    const secondUser = lists[0].children[1].textContent;
+    alert(`Hello ${firstUser} and ${secondUser}`);
 }
