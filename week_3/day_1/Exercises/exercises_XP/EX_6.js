@@ -1,19 +1,22 @@
 const details = {
-    my: 'name',
-    is: 'Rudolf',
-    the: 'reindeer'
-  };
-  let sentence = "";
+  my: 'name',
+  is: 'Rudolf',
+  the: 'reindeer'
+};
 
-  for (let key in details) {
-    sentence += key + " " + details[key] + " ";
-  }
-  
-  console.log(sentence.trim());
-  
-  const sentence1 = Object.entries(details)
-  .map(([key, value]) => key + " " + value)
-  .join(" ");
+// Using for loop to build the sentence
+let sentence = "";
+const keys = Object.keys(details);
 
-console.log(sentence1);
-    
+for (let i = 0; i < keys.length; i++) {
+  sentence += details[keys[i]] + " ";
+}
+
+console.log(sentence.trim()); // "my name is Rudolf the reindeer"
+
+// Alternative method using for...in
+let sentence2 = "";
+for (let key in details) {
+  sentence2 += details[key] + " ";
+}
+console.log(sentence2.trim());

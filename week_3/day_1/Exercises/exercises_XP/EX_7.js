@@ -1,8 +1,12 @@
 const names = ["Jack", "Philip", "Sarah", "Amanda", "Bernard", "Kyle"];
 
-let secretName = names
-  .map(name => name[0])   // prendre la 1ère lettre
-  .sort()                 // trier alphabétiquement
-  .join("");              // joindre en une seule string
+// Sort the names alphabetically
+names.sort();
 
-console.log(secretName);  // Résultat : ABJKPS
+// Get first letter of each name and join them
+let secretSociety = "";
+for (let i = 0; i < names.length; i++) {
+    secretSociety += names[i][0]; // Get first character of each name
+}
+
+console.log("Secret society name:", secretSociety); // "ABJKPS"
