@@ -1,14 +1,18 @@
 function swapCase(str) {
-    let swapped = '';
-    for (let char of str) {
+  let result = '';
+  
+  for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+      
       if (char === char.toUpperCase()) {
-        swapped += char.toLowerCase();
+          result += char.toLowerCase();
       } else {
-        swapped += char.toUpperCase();
+          result += char.toUpperCase();
       }
-    }
-    return swapped;
   }
   
-  console.log(swapCase('The Quick Brown Fox')); // 'tHE qUICK bROWN fOX'
-  
+  return result;
+}
+
+// Test case
+console.log(swapCase('The Quick Brown Fox')); // --> 'tHE qUICK bROWN fOX'
