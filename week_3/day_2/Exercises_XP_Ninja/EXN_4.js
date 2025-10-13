@@ -1,14 +1,25 @@
-function biggestNumberInArray(array) {
-    let max = 0;
-    for (let item of array) {
-        if (typeof item === "number" && item > max) {
-            max = item;
+function biggestNumberInArray(arrayNumber) {
+    let biggest = 0;
+    
+    for (let i = 0; i < arrayNumber.length; i++) {
+        const element = arrayNumber[i];
+        
+        // Check if element is a number
+        if (typeof element === 'number' && !isNaN(element)) {
+            if (element > biggest) {
+                biggest = element;
+            }
         }
     }
-    return max;
+    
+    return biggest;
 }
 
-// Examples
-console.log(biggestNumberInArray([-1, 0, 3, 100, 99, 2, 99])); // 100
-console.log(biggestNumberInArray(['a', 3, 4, 2])); // 4
-console.log(biggestNumberInArray([])); // 0
+// Test
+const array = [-1, 0, 3, 100, 99, 2, 99];
+const array2 = ['a', 3, 4, 2];
+const array3 = [];
+
+console.log(biggestNumberInArray(array)); // 100
+console.log(biggestNumberInArray(array2)); // 4
+console.log(biggestNumberInArray(array3)); // 0

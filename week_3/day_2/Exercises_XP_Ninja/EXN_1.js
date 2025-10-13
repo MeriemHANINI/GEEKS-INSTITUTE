@@ -1,8 +1,9 @@
-// Generate random number between 1 and 100
+// Get a random number between 1 and 100
 const randomNumber = Math.floor(Math.random() * 100) + 1;
-console.log("Random Number:", randomNumber);
 
-// Print all even numbers from 0 to randomNumber
+// Console.log all even numbers from 0 to the random number
+console.log(`Random number: ${randomNumber}`);
+console.log("Even numbers from 0 to random number:");
 for (let i = 0; i <= randomNumber; i++) {
     if (i % 2 === 0) {
         console.log(i);

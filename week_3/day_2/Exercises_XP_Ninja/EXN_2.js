@@ -1,19 +1,21 @@
 function capitalize(str) {
-    let evenCaps = "";
-    let oddCaps = "";
-
+    let evenCapitalized = '';
+    let oddCapitalized = '';
+    
     for (let i = 0; i < str.length; i++) {
         if (i % 2 === 0) {
-            evenCaps += str[i].toUpperCase();
-            oddCaps += str[i];
+            // Even index - capitalize
+            evenCapitalized += str[i].toUpperCase();
+            oddCapitalized += str[i];
         } else {
-            evenCaps += str[i];
-            oddCaps += str[i].toUpperCase();
+            // Odd index - keep lowercase for evenCapitalized, capitalize for oddCapitalized
+            evenCapitalized += str[i];
+            oddCapitalized += str[i].toUpperCase();
         }
     }
-
-    return [evenCaps, oddCaps];
+    
+    return [evenCapitalized, oddCapitalized];
 }
 
-// Example
-console.log(capitalize("abcdef")); // ["AbCdEf", "aBcDeF"]
+// Test
+console.log(capitalize("abcdef")); // ['AbCdEf', 'aBcDeF']
