@@ -1,62 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drum Kit</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Simple Drum Kit</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: 
+        linear-gradient(rgba(26, 42, 108, 0.7), rgba(178, 31, 31, 0.7), rgba(253, 187, 45, 0.7)),
+        url('concert.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      background: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+
+    .keys-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    .key {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(145deg, #667eea, #764ba2);
+      border: 3px solid #fff;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      font-weight: bold;
+    }
+
+    .key:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    .playing {
+      transform: scale(1.1);
+      background: linear-gradient(145deg, #ffc600, #ff8c00);
+      border-color: #ffc600;
+      box-shadow: 0 0 20px #ffc600;
+    }
+
+    .key kbd {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .key .sound-name {
+      font-size: 0.8rem;
+      color: #ffc600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #status {
+      background: rgba(0,0,0,0.7);
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      border: 2px solid #ffc600;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <div class="keys">
-    <div data-key="65" class="key">
+  <h1>🎵 Drum Kit 🥁</h1>
+  <p>Click the letters or press A-L keys</p>
+  
+  <div class="keys-container">
+    <div class="key" data-key="65">
       <kbd>A</kbd>
-      <span class="sound">Boom</span>
+      <div class="sound-name">Boom</div>
     </div>
-    <div data-key="83" class="key">
+    <div class="key" data-key="83">
       <kbd>S</kbd>
-      <span class="sound">Clap</span>
+      <div class="sound-name">Clap</div>
     </div>
-    <div data-key="68" class="key">
+    <div class="key" data-key="68">
       <kbd>D</kbd>
-      <span class="sound">HiHat</span>
+      <div class="sound-name">HiHat</div>
     </div>
-    <div data-key="70" class="key">
+    <div class="key" data-key="70">
       <kbd>F</kbd>
-      <span class="sound">Kick</span>
+      <div class="sound-name">Kick</div>
     </div>
-    <div data-key="71" class="key">
+    <div class="key" data-key="71">
       <kbd>G</kbd>
-      <span class="sound">OpenHat</span>
+      <div class="sound-name">OpenHat</div>
     </div>
-    <div data-key="72" class="key">
+    <div class="key" data-key="72">
       <kbd>H</kbd>
-      <span class="sound">Ride</span>
+      <div class="sound-name">Ride</div>
     </div>
-    <div data-key="74" class="key">
+    <div class="key" data-key="74">
       <kbd>J</kbd>
-      <span class="sound">Snare</span>
+      <div class="sound-name">Snare</div>
     </div>
-    <div data-key="75" class="key">
+    <div class="key" data-key="75">
       <kbd>K</kbd>
-      <span class="sound">Tink</span>
+      <div class="sound-name">Tink</div>
     </div>
-    <div data-key="76" class="key">
+    <div class="key" data-key="76">
       <kbd>L</kbd>
-      <span class="sound">Tom</span>
+      <div class="sound-name">Tom</div>
     </div>
   </div>
 
-  <!-- 🔊 Audio Elements -->
-  <audio data-key="65" src="sounds/boom.wav"></audio>
-  <audio data-key="83" src="sounds/clap.wav"></audio>
-  <audio data-key="68" src="sounds/hihat.wav"></audio>
-  <audio data-key="70" src="sounds/kick.wav"></audio>
-  <audio data-key="71" src="sounds/openhat.wav"></audio>
-  <audio data-key="72" src="sounds/ride.wav"></audio>
-  <audio data-key="74" src="sounds/snare.wav"></audio>
-  <audio data-key="75" src="sounds/tink.wav"></audio>
-  <audio data-key="76" src="sounds/tom.wav"></audio>
+  <p id="status">🎶 Click any drum pad above! 🎶</p>
 
-  <script src="script.js"></script>
+  <script>
+    function playSound(keyCode) {
+      const key = document.querySelector(`[data-key="${keyCode}"]`);
+      if (key) {
+        key.classList.add('playing');
+        setTimeout(() => key.classList.remove('playing'), 100);
+        
+        // Créer un bip sonore simple
+        const beep = new AudioContext();
+        const oscillator = beep.createOscillator();
+        const gainNode = beep.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(beep.destination);
+        
+        oscillator.frequency.value = 200 + (keyCode - 65) * 50;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.value = 0.3;
+        
+        oscillator.start();
+        setTimeout(() => oscillator.stop(), 200);
+        
+        const soundName = key.querySelector('.sound-name').textContent;
+        document.getElementById('status').textContent = `🎵 Playing: ${soundName} 🎵`;
+      }
+    }
+
+    // Clic souris
+    document.querySelectorAll('.key').forEach(key => {
+      key.addEventListener('click', function() {
+        playSound(this.getAttribute('data-key'));
+      });
+    });
+
+    // Clavier
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode >= 65 && e.keyCode <= 76) {
+        playSound(e.keyCode);
+      }
+    });
+  </script>
 </body>
 </html>
