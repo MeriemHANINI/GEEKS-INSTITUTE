@@ -1,70 +1,303 @@
-What You will learn :
-
-
-
-
-
-Use the DOM and Forms
-
-
-
-
-
-Instructions
-
-In todays exercise we will be creating a Mad Libs game.
-If you’ve never played this game, a mad lib is a game where you fill in a bunch of blank inputs with different word types (ie : noun, adjective, verb), and then a story is generated based on the words you chose, and sometimes the story is surprisingly funny.
-
-In this exercise you work with the HTML code presented below.
-
-Follow these steps :
-
-
-
-
-
-Get the value of each of the inputs in the HTML file when the form is submitted. Remember the event.preventDefault()
-
-
-
-Make sure the values are not empty
-
-
-
-Write a story that uses each of the values.
-
-
-
-Make sure you check the console for errors when playing the game.
-
-
-
-Bonus: Add a “shuffle” button to the HTML file, when clicked the button should change the story currently displayed (but keep the values entered by the user). The user could click the button at least three times and get a new story. Display the stories randomly.
-
 <!DOCTYPE html>
-<html>
- <head>
-  <meta charset="utf-8" />
-  <title>Challenge: Mad Libs</title>
- </head>
- <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mad Libs Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #4a6fa5;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #4a6fa5;
+            outline: none;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        #lib-button {
+            background-color: #4a6fa5;
+            color: white;
+        }
+        
+        #lib-button:hover {
+            background-color: #3a5a8a;
+        }
+        
+        #shuffle-button {
+            background-color: #6b8c42;
+            color: white;
+        }
+        
+        #shuffle-button:hover {
+            background-color: #5a7a35;
+        }
+        
+        #shuffle-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .story-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #4a6fa5;
+        }
+        
+        .story-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #4a6fa5;
+        }
+        
+        #story {
+            line-height: 1.6;
+            font-size: 18px;
+        }
+        
+        .error {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mad Libs Game</h1>
+        
+        <form id="libform">
+            <div class="form-group">
+                <label for="noun">Noun:</label>
+                <input type="text" id="noun" placeholder="e.g., cat, book, mountain">
+                <div class="error" id="noun-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="adjective">Adjective:</label>
+                <input type="text" id="adjective" placeholder="e.g., funny, scary, beautiful">
+                <div class="error" id="adjective-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="person">Someone's Name:</label>
+                <input type="text" id="person" placeholder="e.g., Alex, Maria, David">
+                <div class="error" id="person-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="verb">Verb:</label>
+                <input type="text" id="verb" placeholder="e.g., run, think, create">
+                <div class="error" id="verb-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="place">A place:</label>
+                <input type="text" id="place" placeholder="e.g., park, beach, library">
+                <div class="error" id="place-error"></div>
+            </div>
+            
+            <div class="buttons">
+                <button type="submit" id="lib-button">Generate Story</button>
+                <button type="button" id="shuffle-button" disabled>Shuffle Story</button>
+            </div>
+        </form>
+        
+        <div class="story-container">
+            <div class="story-title">Generated Story:</div>
+            <p id="story">Fill out the form above and click "Generate Story" to see your Mad Lib!</p>
+        </div>
+    </div>
 
-    <h1>Mad Libs</h1>
-
-    <form id="libform">
-        <label for="noun">Noun:</label><input type="text" id="noun"><br>
-        <label for="adjective">Adjective:</label><input type="text" id="adjective"><br>
-        <label for="person">Someone's Name:</label><input type="text" id="person"><br>
-        <label for="verb">Verb:</label><input type="text" id="verb"><br>
-        <label for="place">A place:</label><input type="text" id="place"><br>
-        <button id="lib-button">Lib it!</button>
-    </form>
-
-    <p>Generated story: 
-    <span id="story"></span>
-    </p>
-
-    <script src="..."></script>
-
- </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('libform');
+            const storyElement = document.getElementById('story');
+            const shuffleButton = document.getElementById('shuffle-button');
+            
+            // Story templates
+            const storyTemplates = [
+                "Yesterday, <span class='highlight'>{person}</span> went to the <span class='highlight'>{place}</span> and found a <span class='highlight'>{adjective}</span> <span class='highlight'>{noun}</span>. They decided to <span class='highlight'>{verb}</span> with it, which surprised everyone around!",
+                
+                "Once upon a time, <span class='highlight'>{person}</span> discovered a magical <span class='highlight'>{noun}</span> at the <span class='highlight'>{place}</span>. It was so <span class='highlight'>{adjective}</span> that they couldn't resist the urge to <span class='highlight'>{verb}</span> immediately.",
+                
+                "In a land far away, <span class='highlight'>{person}</span> was known for their ability to <span class='highlight'>{verb}</span> with a <span class='highlight'>{adjective}</span> <span class='highlight'>{noun}</span>. They practiced this skill every day at the <span class='highlight'>{place}</span>.",
+                
+                "The adventure began when <span class='highlight'>{person}</span> found a <span class='highlight'>{adjective}</span> <span class='highlight'>{noun}</span> while visiting the <span class='highlight'>{place}</span>. Without hesitation, they decided to <span class='highlight'>{verb}</span> with it, creating an unforgettable memory.",
+                
+                "Legend has it that <span class='highlight'>{person}</span> once traveled to the <span class='highlight'>{place}</span> carrying nothing but a <span class='highlight'>{adjective}</span> <span class='highlight'>{noun}</span>. There, they learned to <span class='highlight'>{verb}</span> in ways no one had ever imagined."
+            ];
+            
+            let currentStoryIndex = 0;
+            let userWords = {};
+            
+            // Form submission handler
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Get form values
+                const noun = document.getElementById('noun').value.trim();
+                const adjective = document.getElementById('adjective').value.trim();
+                const person = document.getElementById('person').value.trim();
+                const verb = document.getElementById('verb').value.trim();
+                const place = document.getElementById('place').value.trim();
+                
+                // Validate inputs
+                const isValid = validateInputs(noun, adjective, person, verb, place);
+                
+                if (isValid) {
+                    // Store user words
+                    userWords = { noun, adjective, person, verb, place };
+                    
+                    // Generate and display story
+                    generateStory();
+                    
+                    // Enable shuffle button
+                    shuffleButton.disabled = false;
+                }
+            });
+            
+            // Shuffle button handler
+            shuffleButton.addEventListener('click', function() {
+                if (!shuffleButton.disabled) {
+                    // Cycle through story templates
+                    currentStoryIndex = (currentStoryIndex + 1) % storyTemplates.length;
+                    generateStory();
+                }
+            });
+            
+            // Input validation function
+            function validateInputs(noun, adjective, person, verb, place) {
+                let isValid = true;
+                
+                // Clear previous errors
+                document.querySelectorAll('.error').forEach(el => el.textContent = '');
+                
+                // Validate each field
+                if (!noun) {
+                    document.getElementById('noun-error').textContent = 'Please enter a noun';
+                    isValid = false;
+                }
+                
+                if (!adjective) {
+                    document.getElementById('adjective-error').textContent = 'Please enter an adjective';
+                    isValid = false;
+                }
+                
+                if (!person) {
+                    document.getElementById('person-error').textContent = 'Please enter a name';
+                    isValid = false;
+                }
+                
+                if (!verb) {
+                    document.getElementById('verb-error').textContent = 'Please enter a verb';
+                    isValid = false;
+                }
+                
+                if (!place) {
+                    document.getElementById('place-error').textContent = 'Please enter a place';
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Story generation function
+            function generateStory() {
+                const template = storyTemplates[currentStoryIndex];
+                
+                // Replace placeholders with user words
+                let story = template
+                    .replace(/{noun}/g, userWords.noun)
+                    .replace(/{adjective}/g, userWords.adjective)
+                    .replace(/{person}/g, userWords.person)
+                    .replace(/{verb}/g, userWords.verb)
+                    .replace(/{place}/g, userWords.place);
+                
+                // Display the story
+                storyElement.innerHTML = story;
+            }
+        });
+    </script>
+</body>
 </html>
