@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fonction allTruthy() - Testeur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2575fc;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: #6a11cb;
+            margin: 25px 0 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .description {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .code-section {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .test-area {
+            background-color: #e9f7fe;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .value-input {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px;
+            border: 2px solid #2575fc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            display: none;
+        }
+        
+        .true {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .false {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .example-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .example-code {
+            font-family: 'Courier New', monospace;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .example-result {
+            font-weight: bold;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fonction allTruthy()</h1>
+        
+        <div class="description">
+            <p>La fonction <strong>allTruthy()</strong> vérifie si tous les paramètres passés sont des valeurs "truthy" (évaluées à true dans un contexte booléen).</p>
+            <p>En JavaScript, les valeurs "falsy" sont : <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>. Toutes les autres valeurs sont "truthy".</p>
+        </div>
+        
+        <h2>Implémentation de la fonction</h2>
+        <div class="code-section">
+            <pre><code>function allTruthy(...args) {
+    // Vérifie si tous les éléments du tableau sont truthy
+    return args.every(arg => Boolean(arg));
+}</code></pre>
+        </div>
+        
+        <h2>Testez la fonction</h2>
+        <div class="test-area">
+            <p>Entrez des valeurs séparées par des virgules :</p>
+            <div class="input-group">
+                <input type="text" id="valuesInput" class="value-input" placeholder="true, 1, 'hello', [], {}">
+                <button id="testButton" class="btn">Tester allTruthy()</button>
+            </div>
+            
+            <div id="result" class="result"></div>
+        </div>
+        
+        <h2>Exemples d'utilisation</h2>
+        <div class="examples">
+            <div class="example-card">
+                <div class="example-code">allTruthy(true, true, true)</div>
+                <div class="example-result true">➞ true</div>
+            </div>
+            <div class="example-card">
+                <div class="example-code">allTruthy(true, false, true)</div>
+                <div class="example-result false">➞ false</div>
+            </div>
+            <div class="example-card">
+                <div class="example-code">allTruthy(5, 4, 3, 2, 1, 0)</div>
+                <div class="example-result false">➞ false</div>
+            </div>
+            <div class="example-card">
+                <div class="example-code">allTruthy('hello', 1, [], {})</div>
+                <div class="example-result true">➞ true</div>
+            </div>
+        </div>
+        
+        <h2>Autres implémentations</h2>
+        <div class="code-section">
+            <pre><code>// Version avec boucle for
+function allTruthyFor(...args) {
+    for (let i = 0; i < args.length; i++) {
+        if (!args[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Version avec Array.reduce()
+function allTruthyReduce(...args) {
+    return args.reduce((acc, curr) => acc && Boolean(curr), true);
+}</code></pre>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Créé pour démontrer les méthodes de tableau et les conditionnels en JavaScript</p>
+    </footer>
+
+    <script>
+        // Implémentation de la fonction allTruthy
+        function allTruthy(...args) {
+            return args.every(arg => Boolean(arg));
+        }
+        
+        // Gestion des événements pour le test
+        document.getElementById('testButton').addEventListener('click', function() {
+            const input = document.getElementById('valuesInput').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                // Conversion de l'entrée en tableau de valeurs
+                let values;
+                if (input.trim() === '') {
+                    values = [];
+                } else {
+                    // Évalue l'entrée comme un tableau JavaScript
+                    values = eval(`[${input}]`);
+                }
+                
+                // Appel de la fonction allTruthy
+                const result = allTruthy(...values);
+                
+                // Affichage du résultat
+                resultDiv.textContent = `allTruthy(${values.map(v => JSON.stringify(v)).join(', ')}) ➞ ${result}`;
+                resultDiv.className = 'result ' + (result ? 'true' : 'false');
+                resultDiv.style.display = 'block';
+                
+            } catch (error) {
+                resultDiv.textContent = 'Erreur: Veuillez entrer des valeurs valides séparées par des virgules';
+                resultDiv.className = 'result false';
+                resultDiv.style.display = 'block';
+            }
+        });
+        
+        // Permet d'appuyer sur Entrée pour tester
+        document.getElementById('valuesInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('testButton').click();
+            }
+        });
+    </script>
+</body>
+</html>
