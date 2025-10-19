@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2 - Sequential Execution</title>
+</head>
+<body>
+    <h1>Exercise 2: Sequential Execution Analysis</h1>
+    <p>Open the console to see the output!</p>
+
+    <script>
+        let resolveAfter2Seconds = function () {
+            console.log("starting slow promise");
+            return new Promise(resolve => {
+                setTimeout(function () {
+                    resolve("slow");
+                    console.log("slow promise is done");
+                }, 2000);
+            });
+        };
+
+        let resolveAfter1Second = function () {
+            console.log("starting fast promise");
+            return new Promise(resolve => {
+                setTimeout(function () {
+                    resolve("fast");
+                    console.log("fast promise is done");
+                }, 1000);
+            });
+        };
+
+        let sequentialStart = async function () {
+            console.log('==SEQUENTIAL START==');
+            const slow = await resolveAfter2Seconds();
+            console.log(slow);
+            const fast = await resolveAfter1Second();
+            console.log(fast);
+        }
+
+        // Execute the function
+        sequentialStart();
+
+        // Expected Output in console:
+        // ==SEQUENTIAL START==
+        // starting slow promise
+        // (after 2 seconds) slow promise is done
+        // slow
+        // starting fast promise  
+        // (after 1 second) fast promise is done
+        // fast
+    </script>
+</body>
+</html>

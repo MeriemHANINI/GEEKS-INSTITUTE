@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giphy Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        input {
+            padding: 12px 20px;
+            width: 300px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .delete-all-btn {
+            background: #ff4757;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .gifs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gif-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .gif-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gif-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .gif-footer {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gif-title {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .delete-btn {
+            background: #ff4757;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .message {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            input {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .gifs-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Giphy Search</h1>
+            <p class="subtitle">Search for your favorite GIFs and manage them with ease</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Enter a category (e.g., cats, dogs, sun)">
+            <button id="search-btn">Search GIF</button>
+        </div>
+
+        <button id="delete-all-btn" class="delete-all-btn">Delete All GIFs</button>
+
+        <div id="gifs-container" class="gifs-container">
+            <!-- GIFs will be displayed here -->
+        </div>
+
+        <div id="message" class="message">
+            Search for a GIF category to get started!
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_KEY = 'hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My';
+        const BASE_URL = 'https://api.giphy.com/v1/gifs/random';
+
+        // DOM Elements
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const deleteAllBtn = document.getElementById('delete-all-btn');
+        const gifsContainer = document.getElementById('gifs-container');
+        const messageEl = document.getElementById('message');
+
+        // Store GIFs data
+        let gifs = [];
+
+        // Event Listeners
+        searchBtn.addEventListener('click', handleSearch);
+        deleteAllBtn.addEventListener('click', deleteAllGifs);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+
+        // Handle search functionality
+        async function handleSearch() {
+            const searchTerm = searchInput.value.trim();
+            
+            if (!searchTerm) {
+                showMessage('Please enter a search term', 'error');
+                return;
+            }
+
+            // Clear input
+            searchInput.value = '';
+            
+            // Show loading
+            showLoading();
+            
+            try {
+                const gifData = await fetchRandomGif(searchTerm);
+                
+                // Hide loading
+                hideMessage();
+                
+                // Add GIF to our collection
+                gifs.push({
+                    id: gifData.id,
+                    title: searchTerm,
+                    url: gifData.images.original.url
+                });
+                
+                // Render all GIFs
+                renderGifs();
+                
+            } catch (error) {
+                console.error('Error fetching GIF:', error);
+                showMessage('Failed to fetch GIF. Please try again.', 'error');
+            }
+        }
+
+        // Fetch random GIF from Giphy API
+        async function fetchRandomGif(tag) {
+            const url = `${BASE_URL}?api_key=${API_KEY}&tag=${tag}`;
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.data;
+        }
+
+        // Render all GIFs in the container
+        function renderGifs() {
+            if (gifs.length === 0) {
+                showMessage('No GIFs to display. Search for a category!');
+                return;
+            }
+            
+            // Hide message
+            hideMessage();
+            
+            // Clear container
+            gifsContainer.innerHTML = '';
+            
+            // Create and append each GIF element
+            gifs.forEach(gif => {
+                const gifElement = createGifElement(gif);
+                gifsContainer.appendChild(gifElement);
+            });
+        }
+
+        // Create a GIF element with delete button
+        function createGifElement(gif) {
+            const gifItem = document.createElement('div');
+            gifItem.className = 'gif-item';
+            gifItem.dataset.id = gif.id;
+            
+            gifItem.innerHTML = `
+                <img src="${gif.url}" alt="${gif.title}" class="gif-image">
+                <div class="gif-footer">
+                    <span class="gif-title">${gif.title}</span>
+                    <button class="delete-btn" data-id="${gif.id}">Delete</button>
+                </div>
+            `;
+            
+            // Add event listener to delete button
+            const deleteBtn = gifItem.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', () => deleteGif(gif.id));
+            
+            return gifItem;
+        }
+
+        // Delete a specific GIF
+        function deleteGif(id) {
+            gifs = gifs.filter(gif => gif.id !== id);
+            renderGifs();
+        }
+
+        // Delete all GIFs
+        function deleteAllGifs() {
+            if (gifs.length === 0) {
+                showMessage('No GIFs to delete!', 'error');
+                return;
+            }
+            
+            gifs = [];
+            renderGifs();
+            showMessage('All GIFs have been deleted!');
+        }
+
+        // Show message
+        function showMessage(text, type = 'info') {
+            messageEl.textContent = text;
+            messageEl.style.display = 'block';
+            messageEl.style.color = type === 'error' ? '#ff6b6b' : 'white';
+        }
+
+        // Hide message
+        function hideMessage() {
+            messageEl.style.display = 'none';
+        }
+
+        // Show loading indicator
+        function showLoading() {
+            messageEl.innerHTML = `
+                <div class="spinner"></div>
+                <div>Searching for GIFs...</div>
+            `;
+            messageEl.style.display = 'block';
+            messageEl.style.color = 'white';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3: Analyze #5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .output {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exercise 3: Analyze #5</h1>
+        
+        <h2>Code Analysis</h2>
+        
+        <div class="code-block">
+let resolveAfter2Seconds = function () {
+    console.log("starting slow promise");
+    return new Promise(resolve => {
+        setTimeout(function () {
+            resolve("slow");
+            console.log("slow promise is done");
+        }, 2000);
+    });
+};
+
+let resolveAfter1Second = function () {
+    console.log("starting fast promise");
+    return new Promise(resolve => {
+        setTimeout(function () {
+            resolve("fast");
+            console.log("fast promise is done");
+        }, 1000);
+    });
+};
+
+let parallel = async function () {
+    console.log('==PARALLEL with await Promise.all==');
+    await Promise.all([
+        (async () => console.log(await resolveAfter2Seconds()))(),
+        (async () => console.log(await resolveAfter1Second()))()
+    ]);
+}
+
+setTimeout(parallel, 5000)
+        </div>
+
+        <h2>Expected Output:</h2>
+        <div class="output" id="output">
+            <!-- Output will be displayed here -->
+        </div>
+
+        <h2>Explanation:</h2>
+        <ul>
+            <li>Uses <strong>async/await</strong> with <strong>Promise.all()</strong></li>
+            <li>Both async functions start executing immediately</li>
+            <li>The fast promise resolves first and its result is logged</li>
+            <li>The slow promise resolves later and its result is logged</li>
+            <li>Promise.all() waits for both to complete before the function continues</li>
+            <li>Output shows parallel execution with results logged as they complete</li>
+        </ul>
+    </div>
+
+    <script>
+        const outputDiv = document.getElementById('output');
+        
+        let resolveAfter2Seconds = function () {
+            outputDiv.innerHTML += "starting slow promise<br>";
+            return new Promise(resolve => {
+                setTimeout(function () {
+                    resolve("slow");
+                    outputDiv.innerHTML += "slow promise is done<br>";
+                }, 2000);
+            });
+        };
+
+        let resolveAfter1Second = function () {
+            outputDiv.innerHTML += "starting fast promise<br>";
+            return new Promise(resolve => {
+                setTimeout(function () {
+                    resolve("fast");
+                    outputDiv.innerHTML += "fast promise is done<br>";
+                }, 1000);
+            });
+        };
+
+        let parallel = async function () {
+            outputDiv.innerHTML += '==PARALLEL with await Promise.all==<br>';
+            await Promise.all([
+                (async () => {
+                    const result = await resolveAfter2Seconds();
+                    outputDiv.innerHTML += result + '<br>';
+                })(),
+                (async () => {
+                    const result = await resolveAfter1Second();
+                    outputDiv.innerHTML += result + '<br>';
+                })()
+            ]);
+        }
+
+        // Run after 1 second to let the page load
+        setTimeout(() => {
+            outputDiv.innerHTML += "Running the code...<br>";
+            parallel();
+        }, 1000);
+    </script>
+</body>
+</html>
