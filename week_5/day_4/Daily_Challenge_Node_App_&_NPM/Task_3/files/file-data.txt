@@ -1,0 +1,4 @@
+This is the content of the file-data.txt file.
+Node.js file operations are powerful and easy to use.
+This text will be read and displayed by our application.
+Daily Challenge - Working with File System!

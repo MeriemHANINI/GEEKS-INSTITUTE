@@ -1,0 +1,16 @@
+{
+    "name": "date-exercises",
+    "version": "1.0.0",
+    "description": "Node.js date exercises",
+    "main": "script.js",
+    "scripts": {
+      "start": "node script.js",
+      "exercise1": "node script-ex1.js",
+      "exercise2": "node script-ex2.js",
+      "exercise3": "node script-ex3.js"
+    },
+    "dependencies": {
+      "readline-sync": "^1.4.10",
+      "date-holidays": "^3.2.0"
+    }
+  }
