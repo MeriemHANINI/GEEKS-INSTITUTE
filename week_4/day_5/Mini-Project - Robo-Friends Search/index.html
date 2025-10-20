@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robo-Friends Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .robots-count {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .robots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .robot-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .robot-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .robot-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .robot-info {
+            padding: 20px;
+        }
+
+        .robot-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #00ffff;
+        }
+
+        .robot-username {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .robot-email {
+            font-size: 0.9rem;
+            word-break: break-all;
+            opacity: 0.7;
+        }
+
+        .no-results {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 50px;
+            grid-column: 1 / -1;
+            opacity: 0.7;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .robots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .robots-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Robo-Friends</h1>
+            <p class="subtitle">Your friendly neighborhood robots</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search for a robot by name..." id="searchInput">
+        </div>
+        
+        <div class="robots-count" id="robotsCount">Displaying 10 robots</div>
+        
+        <div class="robots-grid" id="robotsGrid"></div>
+        
+        <footer>
+            <p>Created with Advanced JavaScript - Array Methods, Destructuring & DOM Manipulation</p>
+        </footer>
+    </div>
+
+    <script>
+        // Array of robot objects
+        const robots = [
+            {
+                id: 1,
+                name: 'Leanne Graham',
+                username: 'Bret',
+                email: 'Sincere@april.biz',
+                image: 'https://robohash.org/1?200x200'
+            },
+            {
+                id: 2,
+                name: 'Ervin Howell',
+                username: 'Antonette',
+                email: 'Shanna@melissa.tv',
+                image: 'https://robohash.org/2?200x200'
+            },
+            {
+                id: 3,
+                name: 'Clementine Bauch',
+                username: 'Samantha',
+                email: 'Nathan@yesenia.net',
+                image: 'https://robohash.org/3?200x200'
+            },
+            {
+                id: 4,
+                name: 'Patricia Lebsack',
+                username: 'Karianne',
+                email: 'Julianne.OConner@kory.org',
+                image: 'https://robohash.org/4?200x200'
+            },
+            {
+                id: 5,
+                name: 'Chelsey Dietrich',
+                username: 'Kamren',
+                email: 'Lucio_Hettinger@annie.ca',
+                image: 'https://robohash.org/5?200x200'
+            },
+            {
+                id: 6,
+                name: 'Mrs. Dennis Schulist',
+                username: 'Leopoldo_Corkery',
+                email: 'Karley_Dach@jasper.info',
+                image: 'https://robohash.org/6?200x200'
+            },
+            {
+                id: 7,
+                name: 'Kurtis Weissnat',
+                username: 'Elwyn.Skiles',
+                email: 'Telly.Hoeger@billy.biz',
+                image: 'https://robohash.org/7?200x200'
+            },
+            {
+                id: 8,
+                name: 'Nicholas Runolfsdottir V',
+                username: 'Maxime_Nienow',
+                email: 'Sherwood@rosamond.me',
+                image: 'https://robohash.org/8?200x200'
+            },
+            {
+                id: 9,
+                name: 'Glenna Reichert',
+                username: 'Delphine',
+                email: 'Chaim_McDermott@dana.io',
+                image: 'https://robohash.org/9?200x200'
+            },
+            {
+                id: 10,
+                name: 'Clementina DuBuque',
+                username: 'Moriah.Stanton',
+                email: 'Rey.Padberg@karina.biz',
+                image: 'https://robohash.org/10?200x200'
+            }
+        ];
+
+        // DOM Elements
+        const robotsGrid = document.getElementById('robotsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const robotsCount = document.getElementById('robotsCount');
+
+        // Function to display robots
+        const displayRobots = (robotsArray) => {
+            // Clear the grid
+            robotsGrid.innerHTML = '';
+            
+            // Update robots count
+            robotsCount.textContent = `Displaying ${robotsArray.length} robot${robotsArray.length !== 1 ? 's' : ''}`;
+            
+            // If no robots found, display message
+            if (robotsArray.length === 0) {
+                robotsGrid.innerHTML = '<div class="no-results">No robots found. Try a different search term.</div>';
+                return;
+            }
+            
+            // Create robot cards using array methods and destructuring
+            robotsArray.forEach(robot => {
+                // Using object destructuring to extract properties
+                const { id, name, username, email, image } = robot;
+                
+                // Create card element
+                const card = document.createElement('div');
+                card.className = 'robot-card';
+                
+                // Create card content using template literals
+                card.innerHTML = `
+                    <img src="${image}" alt="${name}" class="robot-image">
+                    <div class="robot-info">
+                        <h3 class="robot-name">${name}</h3>
+                        <p class="robot-username">@${username}</p>
+                        <p class="robot-email">${email}</p>
+                    </div>
+                `;
+                
+                // Add card to grid
+                robotsGrid.appendChild(card);
+            });
+        };
+
+        // Function to filter robots based on search input
+        const filterRobots = () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            // Using array filter method to find matching robots
+            const filteredRobots = robots.filter(robot => 
+                robot.name.toLowerCase().includes(searchTerm)
+            );
+            
+            // Display filtered robots
+            displayRobots(filteredRobots);
+        };
+
+        // Event listener for search input
+        searchInput.addEventListener('input', filterRobots);
+
+        // Initial display of all robots
+        displayRobots(robots);
+    </script>
+</body>
+</html>
