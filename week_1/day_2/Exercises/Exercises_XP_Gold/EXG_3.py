@@ -1,12 +1,26 @@
-# Exercice 3: Sum X + XX + XXX + XXXX
-
-def sum_sequence(x):
+def calculate_sum(x):
     """
-    Calcule la somme X + XX + XXX + XXXX pour un entier X
+    Calcule la valeur de X + XX + XXX + XXXX
     """
-    str_x = str(x)
-    total = int(str_x) + int(str_x*2) + int(str_x*3) + int(str_x*4)
+    # Convertir en string pour construire les nombres
+    x_str = str(x)
+    
+    # Construire les termes: X, XX, XXX, XXXX
+    total = 0
+    for i in range(1, 5):
+        term = int(x_str * i)  # Répéter le chiffre i fois
+        total += term
+    
     return total
 
-
-# print(sum_sequence(3))  
+# Test de l'exercice 3
+if __name__ == "__main__":
+    # Test avec l'exemple donné
+    result = calculate_sum(3)
+    print(f"Résultat pour X=3 : {result}")  # Devrait afficher 3702
+    
+    # Test avec d'autres valeurs
+    test_values = [1, 2, 4, 5]
+    for value in test_values:
+        result = calculate_sum(value)
+        print(f"Résultat pour X={value} : {result}")

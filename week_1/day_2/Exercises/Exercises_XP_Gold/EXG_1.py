@@ -1,23 +1,29 @@
-# Exercice 1 : Birthday Look-up simple
-
-def birthday_lookup_simple():
+def birthday_lookup_basic():
+    # Créer le dictionnaire des anniversaires
     birthdays = {
-        "Alice": "1990/05/12",
-        "Bob": "1985/11/03",
-        "Charlie": "1992/07/19",
-        "Diana": "1998/02/25",
-        "Eve": "2000/09/10"
+        "Alice": "1990/05/15",
+        "Bob": "1985/12/03",
+        "Charlie": "1992/08/22",
+        "Diana": "1988/03/10",
+        "Eve": "1995/11/28"
     }
-
-    print("Bienvenue !")
-    print("Vous pouvez consulter les anniversaires des personnes dans la liste !")
-
-    name = input("Entrez le nom de la personne : ")
-
-    if name in birthdays:
-        print(f"L'anniversaire de {name} est le {birthdays[name]}.")
+    
+    # Message de bienvenue
+    print("👋 Bienvenue dans le système de recherche d'anniversaires !")
+    print("Vous pouvez rechercher les anniversaires des personnes dans la liste !")
+    
+    # Demander le nom à l'utilisateur
+    name = input("\nEntrez le nom d'une personne : ")
+    
+    # Rechercher l'anniversaire
+    birthday = birthdays.get(name)
+    
+    # Afficher le résultat
+    if birthday:
+        print(f"\n🎂 L'anniversaire de {name} est le {birthday}")
     else:
-        print("Nom non trouvé.")
+        print(f"\n❌ Désolé, nous n'avons pas trouvé {name} dans la liste")
 
-
-# birthday_lookup_simple()
+# Test de l'exercice 1
+if __name__ == "__main__":
+    birthday_lookup_basic()

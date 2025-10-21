@@ -1,26 +1,32 @@
-# Exercice 2 : Birthday Look-up avancé
-
 def birthday_lookup_advanced():
+    # Créer le dictionnaire des anniversaires
     birthdays = {
-        "Alice": "1990/05/12",
-        "Bob": "1985/11/03",
-        "Charlie": "1992/07/19",
-        "Diana": "1998/02/25",
-        "Eve": "2000/09/10"
+        "Alice": "1990/05/15",
+        "Bob": "1985/12/03",
+        "Charlie": "1992/08/22",
+        "Diana": "1988/03/10",
+        "Eve": "1995/11/28"
     }
-
-    print("Bienvenue !")
-    print("Vous pouvez consulter les anniversaires des personnes dans la liste !")
+    
+    # Message de bienvenue
+    print("👋 Bienvenue dans le système de recherche d'anniversaires !")
+    print("Vous pouvez rechercher les anniversaires des personnes dans la liste !")
     
     # Afficher tous les noms disponibles
-    print("Personnes disponibles :", ", ".join(birthdays.keys()))
-
-    name = input("Entrez le nom de la personne : ")
-
+    print("\nVoici toutes les personnes dans notre liste :")
+    for name in birthdays:
+        print(f"- {name}")
+    
+    # Demander le nom à l'utilisateur
+    name = input("\nEntrez le nom d'une personne : ")
+    
+    # Rechercher l'anniversaire avec gestion d'erreur
     if name in birthdays:
-        print(f"L'anniversaire de {name} est le {birthdays[name]}.")
+        birthday = birthdays[name]
+        print(f"\n🎂 L'anniversaire de {name} est le {birthday}")
     else:
-        print(f"Désolé, nous n’avons pas l’information pour {name}.")
+        print(f"\n❌ Désolé, nous n'avons pas les informations d'anniversaire pour {name}")
 
-
-# birthday_lookup_advanced()
+# Test de l'exercice 2
+if __name__ == "__main__":
+    birthday_lookup_advanced()

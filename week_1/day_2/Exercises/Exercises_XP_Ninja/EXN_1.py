@@ -1,30 +1,35 @@
-# Exercice 1 : Manipulation de listes de voitures
+#  Cars
 
-# Liste initiale
-cars_str = "Volkswagen, Toyota, Ford Motor, Honda, Chevrolet"
-cars_list = [car.strip() for car in cars_str.split(",")]
+# Part 1: Basic operations
+manufacturers_string = "Volkswagen, Toyota, Ford Motor, Honda, Chevrolet"
 
-# Nombre de constructeurs
-print(f"Il y a {len(cars_list)} constructeurs dans la liste.")
+# Convert string to list
+manufacturers_list = manufacturers_string.split(", ")
+print(f"Number of manufacturers: {len(manufacturers_list)}")
 
-# Liste en ordre inverse (Z-A)
-cars_desc = sorted(cars_list, reverse=True)
-print("Liste des constructeurs en ordre décroissant :", cars_desc)
+# Print in reverse order
+manufacturers_list.reverse()
+print("Manufacturers in reverse order:", manufacturers_list)
 
-# Combien ont la lettre 'o'
-count_o = sum(1 for car in cars_list if 'o' in car.lower())
-print(f"Nombre de constructeurs contenant la lettre 'o' : {count_o}")
+# Reset list for further operations
+manufacturers_list = manufacturers_string.split(", ")
 
-# Combien n'ont pas la lettre 'i'
-count_no_i = sum(1 for car in cars_list if 'i' not in car.lower())
-print(f"Nombre de constructeurs ne contenant pas la lettre 'i' : {count_no_i}")
+# Count manufacturers with 'o' and without 'i'
+count_with_o = sum(1 for manufacturer in manufacturers_list if 'o' in manufacturer.lower())
+count_without_i = sum(1 for manufacturer in manufacturers_list if 'i' not in manufacturer.lower())
 
-# enlever les doublons
-cars_with_duplicates = ["Honda", "Volkswagen", "Toyota", "Ford Motor", "Honda", "Chevrolet", "Toyota"]
-cars_unique = list(dict.fromkeys(cars_with_duplicates))  # préserve l'ordre
-print(f"Liste sans doublons : {', '.join(cars_unique)}")
-print(f"Nombre de constructeurs après suppression des doublons : {len(cars_unique)}")
+print(f"Manufacturers with 'o': {count_with_o}")
+print(f"Manufacturers without 'i': {count_without_i}")
 
-# lettres inversées, ordre croissant (A-Z)
-cars_reversed_letters = [car[::-1] for car in sorted(cars_unique)]
-print("Constructeurs en ordre A-Z avec lettres inversées :", cars_reversed_letters)
+# Bonus: Remove duplicates
+duplicate_list = ["Honda", "Volkswagen", "Toyota", "Ford Motor", "Honda", "Chevrolet", "Toyota"]
+unique_manufacturers = list(set(duplicate_list))
+unique_string = ", ".join(unique_manufacturers)
+
+print(f"Unique manufacturers: {unique_string}")
+print(f"Number of unique manufacturers: {len(unique_manufacturers)}")
+
+# Bonus: Reverse letters in ascending order
+unique_manufacturers.sort()  # Sort A-Z
+reversed_names = [name[::-1] for name in unique_manufacturers]
+print("Manufacturers with reversed letters:", reversed_names)

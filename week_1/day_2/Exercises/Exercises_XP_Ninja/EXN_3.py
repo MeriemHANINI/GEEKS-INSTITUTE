@@ -1,35 +1,89 @@
-# Exercice 3 : Traduction anglais ↔ Morse
+#  From English to Morse
 
-MORSE_CODE_DICT = {
-    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
-    'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
-    'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
-    'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
-    'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--',
-    'Z': '--..',
-    '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-', 
-    '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
-    ' ': '/'
-}
-
-# Fonction : Anglais → Morse
 def english_to_morse(text):
-    text = text.upper()
-    return ' '.join(MORSE_CODE_DICT.get(char, '') for char in text)
+    """
+    Convert English text to Morse code.
+    
+    Args:
+        text (str): English text to convert
+    
+    Returns:
+        str: Morse code representation
+    """
+    morse_dict = {
+        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+        'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+        'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+        'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+        'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+        '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+        '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+        "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+        '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+        '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.',
+        ' ': '/'
+    }
+    
+    morse_code = []
+    for char in text.upper():
+        if char in morse_dict:
+            morse_code.append(morse_dict[char])
+        else:
+            morse_code.append('?')  # For unknown characters
+    
+    return ' '.join(morse_code)
 
-# Fonction : Morse → Anglais
-def morse_to_english(morse_text):
-    morse_dict_reversed = {value: key for key, value in MORSE_CODE_DICT.items()}
-    words = morse_text.split(' / ')
-    decoded_words = []
+def morse_to_english(morse_code):
+    """
+    Convert Morse code back to English text.
+    
+    Args:
+        morse_code (str): Morse code to convert
+    
+    Returns:
+        str: English text representation
+    """
+    morse_dict = {
+        '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+        '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+        '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+        '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+        '-.--': 'Y', '--..': 'Z', '-----': '0', '.----': '1', '..---': '2',
+        '...--': '3', '....-': '4', '.....': '5', '-....': '6', '--...': '7',
+        '---..': '8', '----.': '9', '.-.-.-': '.', '--..--': ',', '..--..': '?',
+        '.----.': "'", '-.-.--': '!', '-..-.': '/', '-.--.': '(', '-.--.-': ')',
+        '.-...': '&', '---...': ':', '-.-.-.': ';', '-...-': '=', '.-.-.': '+',
+        '-....-': '-', '..--.-': '_', '.-..-.': '"', '...-..-': '$', '.--.-.': '@',
+        '/': ' '
+    }
+    
+    words = morse_code.split(' / ')
+    english_text = []
+    
     for word in words:
-        letters = word.split()
-        decoded_letters = [morse_dict_reversed.get(letter, '') for letter in letters]
-        decoded_words.append(''.join(decoded_letters))
-    return ' '.join(decoded_words)
+        letters = word.split(' ')
+        decoded_word = []
+        for letter in letters:
+            if letter in morse_dict:
+                decoded_word.append(morse_dict[letter])
+            elif letter:  # Non-empty unknown code
+                decoded_word.append('?')
+        english_text.append(''.join(decoded_word))
+    
+    return ' '.join(english_text)
 
-# Exemples de test
-msg = "Hello World"
-morse_msg = english_to_morse(msg)
-print("Morse :", morse_msg)
-print("Décodé :", morse_to_english(morse_msg))
+# Test the Morse code functions
+test_text = "HELLO WORLD"
+morse_result = english_to_morse(test_text)
+english_result = morse_to_english(morse_result)
+
+print(f"Original: {test_text}")
+print(f"Morse: {morse_result}")
+print(f"Back to English: {english_result}")
+
+# Test with a more complex sentence
+sentence = "Python is fun!"
+morse_sentence = english_to_morse(sentence)
+print(f"\nSentence: {sentence}")
+print(f"Morse: {morse_sentence}")
+print(f"Decoded: {morse_to_english(morse_sentence)}")

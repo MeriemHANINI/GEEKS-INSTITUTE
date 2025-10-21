@@ -1,43 +1,61 @@
-# Exercice 4: Double Dice
-
 import random
 
+# Exercice 4: Simulation de lancers de dés
 def throw_dice():
     """
-    Lance un dé et retourne un entier entre 1 et 6
+    Simule le lancer d'un dé
+    Retourne un entier entre 1 et 6
     """
     return random.randint(1, 6)
 
 def throw_until_doubles():
     """
-    Lance deux dés jusqu'à obtenir des doubles.
-    Retourne le nombre de lancers nécessaires.
+    Lance deux dés jusqu'à obtenir un double
+    Retourne le nombre total de lancers
     """
     count = 0
     while True:
         dice1 = throw_dice()
         dice2 = throw_dice()
         count += 1
+        
+        # Afficher chaque lancer (optionnel)
+        print(f"Lancer {count}: ({dice1}, {dice2})")
+        
         if dice1 == dice2:
-            break
-    return count
+            print(f"Double obtenu ! ({dice1}, {dice2})")
+            return count
 
-def main_dice_simulation():
+def main():
     """
-    Lance l'expérience 100 fois et affiche :
-    - Le nombre total de lancers
-    - Le nombre moyen de lancers pour obtenir des doubles
+    Fonction principale pour l'exercice 4
     """
-    results = []
-    for _ in range(100):
+    print("Simulation de lancers de dés jusqu'à obtenir 100 doubles")
+    
+    results = []  # Liste pour stocker le nombre de lancers pour chaque double
+    total_throws = 0
+    
+    for i in range(100):
+        print(f"\n--- Double n°{i+1} ---")
         throws_needed = throw_until_doubles()
         results.append(throws_needed)
+        total_throws += throws_needed
+    
+    # Calculer la moyenne
+    average_throws = total_throws / 100
+    
+    # Afficher les résultats
+    print("\n" + "="*50)
+    print("RÉSULTATS FINAUX")
+    print("="*50)
+    print(f"Nombre total de lancers : {total_throws}")
+    print(f"Moyenne de lancers pour obtenir un double : {average_throws:.2f}")
+    
+    # Statistiques supplémentaires
+    print(f"\nStatistiques supplémentaires :")
+    print(f"Minimum de lancers : {min(results)}")
+    print(f"Maximum de lancers : {max(results)}")
 
-    total_throws = sum(results)
-    average_throws = round(total_throws / len(results), 2)
-
-    print(f"Total de lancers pour atteindre 100 doubles : {total_throws}")
-    print(f"Moyenne de lancers pour obtenir des doubles : {average_throws}")
-
-
-# main_dice_simulation()
+# Test de l'exercice 4
+if __name__ == "__main__":
+    main()
