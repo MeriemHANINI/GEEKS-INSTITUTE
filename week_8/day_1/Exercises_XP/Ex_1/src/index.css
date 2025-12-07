@@ -1,0 +1,20 @@
+/* Styles globaux */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Thème clair */
+  .light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Thème sombre */
+  .dark {
+    background-color: #222222;
+    color: #ffffff;
+  }
+  
